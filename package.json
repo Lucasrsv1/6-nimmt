@@ -1,0 +1,32 @@
+{
+	"name": "pega-em-6",
+	"version": "1.0.0",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"start": "ts-node src/index.ts",
+		"ranking": "ts-node src/generate-full-ranking/index.ts",
+		"build": "tsup",
+		"lint": "eslint . --ext .ts",
+		"lint-fix": "eslint . --ext .ts --fix"
+	},
+	"author": "Lucas Rassilan Vilanova",
+	"license": "ISC",
+	"dependencies": {
+		"args": "^5.0.3",
+		"combinatorial-generators": "^1.1.2",
+		"console-stamp": "^3.1.2"
+	},
+	"devDependencies": {
+		"@types/args": "^5.0.3",
+		"@types/combinations": "^1.0.2",
+		"@typescript-eslint/eslint-plugin": "^7.1.1",
+		"@typescript-eslint/parser": "^7.1.1",
+		"eslint": "^8.57.0",
+		"eslint-plugin-only-warn": "^1.1.0",
+		"ts-node": "^10.9.2",
+		"tsup": "^8.0.2",
+		"typescript": "^5.4.2"
+	}
+}
