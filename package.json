@@ -1,5 +1,5 @@
 {
-	"name": "pega-em-6",
+	"name": "6-nimmt",
 	"version": "1.0.0",
 	"files": [
 		"dist"
@@ -12,6 +12,7 @@
 		"lint-fix": "eslint . --ext .ts --fix"
 	},
 	"author": "Lucas Rassilan Vilanova",
+	"description": "Comparator of strategies for the game 6 nimmt!",
 	"license": "ISC",
 	"dependencies": {
 		"args": "^5.0.3",
