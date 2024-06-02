@@ -70,7 +70,7 @@ export abstract class Player {
 	}
 
 	/**
-	 * Callback that is called when the player's hand is updated.
+	 * Callback that is called when cards are added to the player's hand.
 	 *
 	 * Some strategies may want to override this method in order to perform additional logic.
 	 */

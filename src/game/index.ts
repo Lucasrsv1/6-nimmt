@@ -25,8 +25,13 @@ export class Game {
 		return this.logging ? console.log : () => {};
 	}
 
-	private get qtyCardsPerPlayer (): number {
-		return Math.floor(100 / this.players.length);
+	/**
+	 * Calculates the number of cards to be dealt to each player,
+	 * considering the number of remaining cards and distributing a maximum of 10 cards per player at a time.
+	 * @returns Number of cards to be dealt to each player.
+	 */
+	private getQtyCardsPerPlayer (): number {
+		return Math.min(10, Math.floor(this.cardShuffler.remainingCards / this.players.length));
 	}
 
 	/**
@@ -73,14 +78,8 @@ export class Game {
 		for (const gameColumn of this.gameColumns)
 			gameColumn.startColumn(this.cardShuffler.getCard());
 
-		for (const player of this.players) {
-			player.score = 0;
-			player.addCards(this.cardShuffler.getCards(this.qtyCardsPerPlayer));
-		}
-
-		this.log("Amount of remaining cards in the deck:", this.cardShuffler.remainingCards);
 		for (const player of this.players)
-			this.log("Player", player.name, "has", player.cards.length, "cards in their hand:", player.cards);
+			player.score = 0;
 
 		this.log("Current columns:", this.gameColumns.map((column, index) => ({
 			id: `Column ${index + 1}`,
@@ -89,18 +88,31 @@ export class Game {
 			totalPoints: column.totalPoints
 		})));
 
-		while (this.players[0].cards.length) {
-			const turns: Array<{ player: Player, card: Card }> = [];
+		while (this.players[0].cards.length || this.cardShuffler.remainingCards > this.players.length) {
+			if (!this.players[0].cards.length) {
+				const qtyCardsPerPlayer = this.getQtyCardsPerPlayer();
+				for (const player of this.players) {
+					const promise = player.addCards(this.cardShuffler.getCards(qtyCardsPerPlayer));
+					if (promise)
+						await promise;
+				}
+
+				this.log("Amount of remaining cards in the deck:", this.cardShuffler.remainingCards);
+				for (const player of this.players)
+					this.log("Player", player.name, "has", player.cards.length, "cards in their hand:", player.cards);
+			}
+
+			const round: Array<{ player: Player, card: Card }> = [];
 			for (const player of this.players) {
 				const playerChoice = player.play(this.gameColumns);
 				const card = playerChoice instanceof Promise ? await playerChoice : playerChoice;
-				turns.push({ player, card });
+				round.push({ player, card });
 			}
 
-			turns.sort((a, b) => a.card.number - b.card.number);
-			this.log("Turns:", turns.map(t => ({ player: t.player.name, card: t.card.number })));
+			round.sort((a, b) => a.card.number - b.card.number);
+			this.log("Round:", round.map(t => ({ player: t.player.name, card: t.card.number })));
 
-			for (const { player, card } of turns) {
+			for (const { player, card } of round) {
 				const points = this.playCard(card, player);
 				player.score += points instanceof Promise ? await points : points;
 			}
