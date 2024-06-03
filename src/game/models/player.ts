@@ -1,5 +1,5 @@
 import { Card } from "./card";
-import { GameColumn } from "./game-column";
+import { GameRow } from "./game-row";
 
 /**
  * Base class for a player strategy to be used in the game.
@@ -45,11 +45,11 @@ export abstract class Player {
 
 	/**
 	 * Chooses a card to play from the player's hand.
-	 * @param gameColumns Current state of the game columns.
+	 * @param gameRows Current state of the game rows.
 	 * @returns Card that the player chooses to play.
 	 */
-	public play (gameColumns: GameColumn[]): Card | Promise<Card> {
-		const choice = this.chooseCardToPlay(gameColumns);
+	public play (gameRows: GameRow[]): Card | Promise<Card> {
+		const choice = this.chooseCardToPlay(gameRows);
 		if (choice instanceof Promise)
 			return choice.then(cardIndex => this.selectCard(cardIndex));
 
@@ -57,16 +57,16 @@ export abstract class Player {
 	}
 
 	/**
-	 * Chooses a column to draw.
-	 * @param gameColumns Current state of the game columns.
-	 * @returns Game column that the player chooses to draw.
+	 * Chooses a row to take.
+	 * @param gameRows Current state of the game rows.
+	 * @returns Game row that the player chooses to take.
 	 */
-	public chooseColumn (gameColumns: GameColumn[]): GameColumn | Promise<GameColumn> {
-		const choice = this.chooseColumnToDraw(gameColumns);
+	public chooseRow (gameRows: GameRow[]): GameRow | Promise<GameRow> {
+		const choice = this.chooseRowToTake(gameRows);
 		if (choice instanceof Promise)
-			return choice.then(columnIndex => this.selectColumn(columnIndex, gameColumns));
+			return choice.then(rowIndex => this.selectRow(rowIndex, gameRows));
 
-		return this.selectColumn(choice, gameColumns);
+		return this.selectRow(choice, gameRows);
 	}
 
 	/**
@@ -77,35 +77,35 @@ export abstract class Player {
 	protected onCardsAdded (): void | Promise<void> {}
 
 	/**
-	 * Strategy that chooses a column to draw when the player is forced to draw a column.
+	 * Strategy that chooses a row to take when the player is forced to take a row.
 	 *
-	 * This is a basic strategy that chooses the column with the least amount of points.
-	 * In case of a tie, the column with the most cards is chosen.
+	 * This is a basic strategy that chooses the row with the least amount of points.
+	 * In case of a tie, the row with the most cards is chosen.
 	 *
 	 * Some strategies may want to override this method in order to perform a different logic.
 	 *
-	 * @param gameColumns Current state of the game columns.
-	 * @returns Index of the game column that the player chooses to draw.
+	 * @param gameRows Current state of the game rows.
+	 * @returns Index of the game row that the player chooses to take.
 	 */
-	protected chooseColumnToDraw (gameColumns: GameColumn[]): number | Promise<number> {
-		let chosenColumnIndex = 0;
+	protected chooseRowToTake (gameRows: GameRow[]): number | Promise<number> {
+		let chosenRowIndex = 0;
 
-		for (let i = 1; i < gameColumns.length; i++) {
-			// Choose the column with the least amount of points
-			if (gameColumns[i].totalPoints < gameColumns[chosenColumnIndex].totalPoints) {
-				chosenColumnIndex = i;
+		for (let i = 1; i < gameRows.length; i++) {
+			// Choose the row with the least amount of points
+			if (gameRows[i].totalPoints < gameRows[chosenRowIndex].totalPoints) {
+				chosenRowIndex = i;
 				continue;
 			}
 
-			// Between columns with the same amount of points, choose the one with the most cards
+			// Between rows with the same amount of points, choose the one with the most cards
 			if (
-				gameColumns[i].totalPoints === gameColumns[chosenColumnIndex].totalPoints &&
-				gameColumns[i].countCards > gameColumns[chosenColumnIndex].countCards
+				gameRows[i].totalPoints === gameRows[chosenRowIndex].totalPoints &&
+				gameRows[i].countCards > gameRows[chosenRowIndex].countCards
 			)
-				chosenColumnIndex = i;
+				chosenRowIndex = i;
 		}
 
-		return chosenColumnIndex;
+		return chosenRowIndex;
 	}
 
 	/**
@@ -113,10 +113,10 @@ export abstract class Player {
 	 *
 	 * Each strategy must implement their specific logic for this method.
 	 *
-	 * @param gameColumns Current state of the game columns.
+	 * @param gameRows Current state of the game rows.
 	 * @returns Index of the card that the player chooses to play.
 	 */
-	protected abstract chooseCardToPlay (gameColumns: GameColumn[]): number | Promise<number>;
+	protected abstract chooseCardToPlay (gameRows: GameRow[]): number | Promise<number>;
 
 	/**
 	 * Converts a card index into a card from the player's hand.
@@ -131,15 +131,15 @@ export abstract class Player {
 	}
 
 	/**
-	 * Converts a column index into a column from the game columns.
-	 * @param columnIndex Index of the game column that the player chooses to draw.
-	 * @param gameColumns Current state of the game columns.
-	 * @returns Game column that the player chooses to draw.
+	 * Converts a row index into a row from the game rows.
+	 * @param rowIndex Index of the game row that the player chooses to take.
+	 * @param gameRows Current state of the game rows.
+	 * @returns Game row that the player chooses to take.
 	 */
-	private selectColumn (columnIndex: number, gameColumns: GameColumn[]): GameColumn {
-		if (columnIndex >= gameColumns.length || columnIndex < 0)
-			throw new Error(`${this.name} tried to choose a column that is out of bounds: ${columnIndex}`);
+	private selectRow (rowIndex: number, gameRows: GameRow[]): GameRow {
+		if (rowIndex >= gameRows.length || rowIndex < 0)
+			throw new Error(`${this.name} tried to choose a row that is out of bounds: ${rowIndex}`);
 
-		return gameColumns[columnIndex];
+		return gameRows[rowIndex];
 	}
 }

@@ -1,4 +1,4 @@
-import { GameColumn } from "../models/game-column";
+import { GameRow } from "../models/game-row";
 import { Player } from "../models/player";
 
 export class AverageCard extends Player {
@@ -9,10 +9,10 @@ export class AverageCard extends Player {
 	 *
 	 * In this strategy, the player chooses the card that is closest to the average of the cards in their hand.
 	 *
-	 * @param gameColumns Current state of the game columns.
+	 * @param gameRows Current state of the game rows.
 	 * @returns Index of the card that the player chooses to play.
 	 */
-	protected chooseCardToPlay (gameColumns: GameColumn[]): number {
+	protected chooseCardToPlay (gameRows: GameRow[]): number {
 		const avg = this.cards.reduce((acc, card) => acc + card.number, 0) / this.cards.length;
 		const nearest = {
 			index: 0,

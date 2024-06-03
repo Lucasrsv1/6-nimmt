@@ -1,6 +1,6 @@
 import { Card } from "./card";
 
-export class GameColumn {
+export class GameRow {
 	private cards: Card[];
 
 	constructor () {
@@ -27,8 +27,8 @@ export class GameColumn {
 	}
 
 	/**
-	 * Add a card to the column.
-	 * @param card Card to add to the column.
+	 * Add a card to the row.
+	 * @param card Card to add to the row.
 	 * @returns Amount of points that must be added to the player's score.
 	 */
 	public addCard (card: Card): number {
@@ -46,11 +46,11 @@ export class GameColumn {
 	}
 
 	/**
-	 * Start the column by removing all cards and adding the specified one.
-	 * @param card Card to add to the start of the column.
+	 * Start the row by removing all cards and adding the specified one.
+	 * @param card Card to add to the start of the row.
 	 * @returns Amount of points that must be added to the player's score.
 	 */
-	public startColumn (card: Card): number {
+	public startRow (card: Card): number {
 		const points = this.totalPoints;
 
 		this.cards.splice(0);

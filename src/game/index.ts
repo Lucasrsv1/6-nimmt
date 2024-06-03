@@ -1,12 +1,12 @@
 import { Card } from "./models/card";
 import { CardShuffler } from "./models/card-shuffler";
-import { GameColumn } from "./models/game-column";
+import { GameRow } from "./models/game-row";
 import { Player } from "./models/player";
 import { buildRanking, IRankingPosition } from "./models/ranking";
 
 export class Game {
 	private cardShuffler: CardShuffler;
-	private gameColumns: GameColumn[] = [];
+	private gameRows: GameRow[] = [];
 
 	constructor (
 		public readonly players: Player[],
@@ -18,7 +18,7 @@ export class Game {
 		this.cardShuffler = new CardShuffler();
 
 		for (let i = 0; i < 4; i++)
-			this.gameColumns.push(new GameColumn());
+			this.gameRows.push(new GameRow());
 	}
 
 	private get log (): typeof console.log {
@@ -41,29 +41,29 @@ export class Game {
 	 * @returns Amount of points that must be added to the player's score.
 	 */
 	private playCard (card: Card, player: Player): number | Promise<number> {
-		const availableColumns = this.gameColumns.filter(column => column.canAddCard(card));
-		if (!availableColumns.length) {
-			const choice = player.chooseColumn(this.gameColumns);
+		const availableRows = this.gameRows.filter(row => row.canAddCard(card));
+		if (!availableRows.length) {
+			const choice = player.chooseRow(this.gameRows);
 			if (choice instanceof Promise)
-				return choice.then(chosenColumn => chosenColumn.startColumn(card));
+				return choice.then(chosenRow => chosenRow.startRow(card));
 
-			return choice.startColumn(card);
+			return choice.startRow(card);
 		}
 
 		const nearest = {
-			column: availableColumns[0],
-			distance: Math.abs(card.number - availableColumns[0].biggestCard)
+			row: availableRows[0],
+			distance: Math.abs(card.number - availableRows[0].biggestCard)
 		};
 
-		for (let i = 1; i < availableColumns.length; i++) {
-			const distance = Math.abs(card.number - availableColumns[i].biggestCard);
+		for (let i = 1; i < availableRows.length; i++) {
+			const distance = Math.abs(card.number - availableRows[i].biggestCard);
 			if (distance < nearest.distance) {
-				nearest.column = availableColumns[i];
+				nearest.row = availableRows[i];
 				nearest.distance = distance;
 			}
 		}
 
-		return nearest.column.addCard(card);
+		return nearest.row.addCard(card);
 	}
 
 	/**
@@ -75,17 +75,17 @@ export class Game {
 		this.cardShuffler.loadCards();
 		this.cardShuffler.shuffle();
 
-		for (const gameColumn of this.gameColumns)
-			gameColumn.startColumn(this.cardShuffler.getCard());
+		for (const gameRow of this.gameRows)
+			gameRow.startRow(this.cardShuffler.getCard());
 
 		for (const player of this.players)
 			player.score = 0;
 
-		this.log("Current columns:", this.gameColumns.map((column, index) => ({
-			id: `Column ${index + 1}`,
-			countCards: column.countCards,
-			biggestCard: column.biggestCard,
-			totalPoints: column.totalPoints
+		this.log("Current rows:", this.gameRows.map((row, index) => ({
+			id: `Row ${index + 1}`,
+			countCards: row.countCards,
+			biggestCard: row.biggestCard,
+			totalPoints: row.totalPoints
 		})));
 
 		while (this.players[0].cards.length || this.cardShuffler.remainingCards > this.players.length) {
@@ -104,7 +104,7 @@ export class Game {
 
 			const round: Array<{ player: Player, card: Card }> = [];
 			for (const player of this.players) {
-				const playerChoice = player.play(this.gameColumns);
+				const playerChoice = player.play(this.gameRows);
 				const card = playerChoice instanceof Promise ? await playerChoice : playerChoice;
 				round.push({ player, card });
 			}
@@ -117,11 +117,11 @@ export class Game {
 				player.score += points instanceof Promise ? await points : points;
 			}
 
-			this.log("Current columns:", this.gameColumns.map((column, index) => ({
-				id: `Column ${index + 1}`,
-				countCards: column.countCards,
-				biggestCard: column.biggestCard,
-				totalPoints: column.totalPoints
+			this.log("Current rows:", this.gameRows.map((row, index) => ({
+				id: `Row ${index + 1}`,
+				countCards: row.countCards,
+				biggestCard: row.biggestCard,
+				totalPoints: row.totalPoints
 			})));
 		}
 
