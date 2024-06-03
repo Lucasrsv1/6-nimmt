@@ -46,26 +46,14 @@ Este projeto foi desenvolvido e testado usando o **Node.js v18.19.0**, o **npm v
 Para executar este projeto você deverá primeiro clonar o repositório:
 
 ```sh
-> git clone https://github.com/Lucasrsv1/6-nimmt.git
-Cloning into '6-nimmt'...
-remote: Enumerating objects: 54, done.
-remote: Counting objects: 100% (54/54), done.
-remote: Compressing objects: 100% (36/36), done.
-Receiving objects: 100% (54/54), 48.61 KiB | 2.21 MiB/s, done. 0Receiving objects:  68% (37/54)
-
-Resolving deltas: 100% (11/11), done.
+git clone https://github.com/Lucasrsv1/6-nimmt.git
+cd 6-nimmt
 ```
 
 Em seguida realize a instalação de dependências usando o seguinte comando:
 
 ```sh
-> npm install
-added 244 packages, and audited 245 packages in 10s
-
-53 packages are looking for funding
-  run `npm fund` for details
-
-found 0 vulnerabilities
+npm install
 ```
 
 Pronto, agora você já pode executar [testes rápidos de estratégias](#teste-rápido-de-estratégias), e gerar o [ranking completo de comparação das estratégias](#geração-do-ranking-completo-de-comparação-das-estratégias).
@@ -87,30 +75,34 @@ Para testar rapidamente a efetividade de uma estratégia, acesse o arquivo `src/
 Feito isso, basta executar o programa e analisar o resultado das partidas jogadas usando o seguinte comando:
 
 ```sh
-> npx ts-node ./src/index.ts
+npx ts-node ./src/index.ts
 ```
 
 Você também pode especificar quantas partidas serão jogadas por meio da opção `-g` ou `--games`, e pode ativar a impressão de logs usando as flags `-l` ou `--logging`, conforme as instruções da mensagem de ajuda do programa:
 
 ```sh
-> npx ts-node ./src/index.ts help
-  Usage: index.ts [options] [command]
+npx ts-node ./src/index.ts help
+```
+```log
+Usage: index.ts [options] [command]
 
-  Commands:
-    help     Display help
-    version  Display version
+Commands:
+  help     Display help
+  version  Display version
 
-  Options:
-    -g, --games <n>  Amount of games to play (defaults to 100000)
-    -h, --help       Output usage information
-    -l, --logging    Enable logging (disabled by default)
-    -v, --version    Output the version number
+Options:
+  -g, --games <n>  Amount of games to play (defaults to 100000)
+  -h, --help       Output usage information
+  -l, --logging    Enable logging (disabled by default)
+  -v, --version    Output the version number
 ```
 
 #### **Exemplo de uso:**
 
 ```sh
-> npx ts-node ./src/index.ts
+npx ts-node ./src/index.ts
+```
+```log
 Processing...
 
 Victories:
@@ -137,32 +129,36 @@ Finished in 9.844 seconds
 Para gerar o ranking completo comparando todas as possibilidades de jogos para todas as estratégias, basta executar o seguinte comando:
 
 ```sh
-> npx ts-node ./src/generate-full-ranking/index.ts
+npx ts-node ./src/generate-full-ranking/index.ts
 ```
 
 Você também pode especificar quantas partidas serão jogadas para cada possibilidade por meio da opção `-g` ou `--games`, e pode definir o número de processos filhos que serão usados para computar os resultados por meio da opção `-w` ou `--workers`. Além disso, você pode ativar a impressão de logs de cada partida usando as flags `-l` ou `--logging`, e ativar a impressão de todas as combinações de estratégias possíveis por meio das flags `-p` ou `--log-possibilities`, conforme as instruções da mensagem de ajuda do programa:
 
 ```sh
-> npx ts-node ./src/generate-full-ranking/index.ts help
-  Usage: index.ts [options] [command]
+npx ts-node ./src/generate-full-ranking/index.ts help
+```
+```log
+Usage: index.ts [options] [command]
 
-  Commands:
-    help     Display help
-    version  Display version
+Commands:
+  help     Display help
+  version  Display version
 
-  Options:
-    -g, --games <n>          Amount of games to play for each possible combination of strategies (defaults to 200)
-    -h, --help               Output usage information
-    -p, --log-possibilities  Logs all possible strategy combinations to be played (disabled by default)
-    -l, --logging            Enable logging for the games (disabled by default)
-    -v, --version            Output the version number
-    -w, --workers <n>        Amount of workers (child processes) to spawn (defaults to the number of CPUs)
+Options:
+  -g, --games <n>          Amount of games to play for each possible combination of strategies (defaults to 200)
+  -h, --help               Output usage information
+  -p, --log-possibilities  Logs all possible strategy combinations to be played (disabled by default)
+  -l, --logging            Enable logging for the games (disabled by default)
+  -v, --version            Output the version number
+  -w, --workers <n>        Amount of workers (child processes) to spawn (defaults to the number of CPUs)
 ```
 
 #### **Exemplo de uso:**
 
 ```sh
-> npx ts-node ./src/generate-full-ranking/index.ts
+npx ts-node ./src/generate-full-ranking/index.ts
+```
+```log
 [2024-06-02 19:12:43.791] [LOG] Starting...
 [2024-06-02 19:12:43.795] [LOG] Spawning worker 0
 ...
@@ -198,19 +194,19 @@ Você também pode especificar quantas partidas serão jogadas para cada possibi
 Se preferir, você pode gerar o build do projeto para executá-lo diretamente com o Node.js por meio do comando:
 
 ```sh
-> npm run build
+npm run build
 ```
 
 Feito isso, testes rápidos poderão ser executados através do comando:
 
 ```sh
-> node ./dist/index.js
+node ./dist/index.js
 ```
 
 E o ranking completo poderá ser gerado através do comando:
 
 ```sh
-> node ./dist/generate-full-ranking/index.js
+node ./dist/generate-full-ranking/index.js
 ```
 
 ## Resultados da Comparação das Estratégias
