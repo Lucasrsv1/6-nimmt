@@ -33,9 +33,7 @@ process.on("message", async (message: Serializable | IMessageToWorker) => {
 
 		for (let i = 0; i < message.gamesToPlay; i++) {
 			const ranking = await game.play();
-			for (const { player, points, position } of ranking) {
-				const strategyName = player.split("-")[0];
-
+			for (const { strategyName, points, position } of ranking) {
 				totalPoints += points;
 				stats[strategyName].points += points;
 

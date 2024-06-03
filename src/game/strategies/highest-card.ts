@@ -2,7 +2,7 @@ import { GameRow } from "../models/game-row";
 import { Player } from "../models/player";
 
 export class HighestCard extends Player {
-	protected strategyName: string = "HighestCard";
+	public readonly strategyName: string = "HighestCard";
 
 	/**
 	 * Strategy that chooses a card to play from the player's hand.

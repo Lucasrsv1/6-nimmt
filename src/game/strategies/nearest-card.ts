@@ -2,7 +2,7 @@ import { GameRow } from "../models/game-row";
 import { Player } from "../models/player";
 
 export class NearestCard extends Player {
-	protected strategyName: string = "NearestCard";
+	public readonly strategyName: string = "NearestCard";
 
 	/**
 	 * Strategy that chooses a card to play from the player's hand.

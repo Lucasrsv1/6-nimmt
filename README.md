@@ -272,7 +272,7 @@ import { Player } from "../models/player";
 // Name this class after the name of your strategy.
 export class NewStrategy extends Player {
 	// Attribute the name of your strategy to this property.
-	protected strategyName: string = "NewStrategy";
+	public readonly strategyName: string = "NewStrategy";
 
 	/**
 	 * Callback that is called when cards are added to the player's hand.

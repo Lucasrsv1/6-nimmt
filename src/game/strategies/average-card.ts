@@ -2,7 +2,7 @@ import { GameRow } from "../models/game-row";
 import { Player } from "../models/player";
 
 export class AverageCard extends Player {
-	protected strategyName: string = "AverageCard";
+	public readonly strategyName: string = "AverageCard";
 
 	/**
 	 * Strategy that chooses a card to play from the player's hand.

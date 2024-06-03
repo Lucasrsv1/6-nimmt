@@ -2,7 +2,7 @@ import { GameRow } from "../models/game-row";
 import { Player } from "../models/player";
 
 export class RandomCard extends Player {
-	protected strategyName: string = "RandomCard";
+	public readonly strategyName: string = "RandomCard";
 
 	/**
 	 * Strategy that chooses a card to play from the player's hand.

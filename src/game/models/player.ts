@@ -10,7 +10,7 @@ export abstract class Player {
 	 *
 	 * Each strategy must attribute their name to this property.
 	 */
-	protected abstract strategyName: string;
+	public abstract readonly strategyName: string;
 
 	/**
 	 * List of cards that the player has in their hand in ascending order.

@@ -2,7 +2,7 @@ import { GameRow } from "../models/game-row";
 import { Player } from "../models/player";
 
 export class LowestCard extends Player {
-	protected strategyName: string = "LowestCard";
+	public readonly strategyName: string = "LowestCard";
 
 	/**
 	 * Strategy that chooses a card to play from the player's hand.

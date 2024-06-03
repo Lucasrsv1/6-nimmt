@@ -2,6 +2,7 @@ import { Player } from "./player";
 
 export interface IRankingPosition {
 	player: string;
+	strategyName: string;
 	points: number;
 	position: number;
 }
@@ -21,6 +22,7 @@ export function buildRanking (players: Player[]): IRankingPosition[] | null {
 	for (const player of playersCopy) {
 		ranking.push({
 			player: player.name,
+			strategyName: player.strategyName,
 			points: player.score,
 			position: ranking.length + 1
 		});

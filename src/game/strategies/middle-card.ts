@@ -2,7 +2,7 @@ import { GameRow } from "../models/game-row";
 import { Player } from "../models/player";
 
 export class MiddleCard extends Player {
-	protected strategyName: string = "MiddleCard";
+	public readonly strategyName: string = "MiddleCard";
 
 	/**
 	 * Strategy that chooses a card to play from the player's hand.
