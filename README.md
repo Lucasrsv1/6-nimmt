@@ -7,11 +7,13 @@
 	<a href="https://github.com/Lucasrsv1/6-nimmt/blob/master/README.pt-br.md">Português Brasileiro</a>
 </p>
 
-This project aims to make a comparison between possible strategies to win the game [6 Nimmt!](https://www.google.com/search?q=6+nimmt%21) in order to assist in the search for a strategy that is significantly better than the others.
+This project aims to make a comparison between possible strategies to win the game <a href="https://www.google.com/search?q=6+nimmt%21" target="_blank">6 Nimmt!</a> in order to assist in the search for a strategy that is significantly better than the others.
 
-*Note: Such a strategy that is significantly better has not yet been found... [help us find it!](#como-adicionar-uma-nova-estratégia)*
+*Note: Such a strategy that is significantly better has not yet been found... [help us find it!](#how-to-add-a-new-strategy)*
 
-[The game manual is available at this link.](https://world-of-board-games.com.sg/docs/6-Nimmt.pdf)
+<a href="https://world-of-board-games.com.sg/docs/6-Nimmt.pdf" target="_blank">
+	The game manual is available at this link.
+</a>
 
 ## Strategies
 
@@ -56,7 +58,7 @@ Then install dependencies using the following command:
 npm install
 ```
 
-That's it, now you can run [quick strategy tests](#teste-rápido-de-estratégias), and generate the [complete strategy comparison ranking](#geração-do-ranking-completo-de-comparação-das-estratégias).
+That's it, now you can run [quick strategy tests](#quick-strategy-test), and generate the [complete strategy comparison ranking](#generation-of-the-complete-strategy-comparison-ranking).
 
 ### Project Structure
 
@@ -251,11 +253,11 @@ To create a new strategy, follow these steps:
 
 4. If your strategy requires performing some processing when the player receives new cards, override the `onCardsAdded` method.
 
-5. Perform [quick tests](#teste-rápido-de-estratégias) with your new strategy using the `src/index.ts` file to check whether it looks promising.
+5. Perform [quick tests](#quick-strategy-test) with your new strategy using the `src/index.ts` file to check whether it looks promising.
 
 6. Add your strategy to the `strategies` array in the `src/game/strategies/index.ts` file so that it can be used to generate the complete strategy ranking.
 
-7. Finally, [generate the complete strategy comparison ranking](#geração-do-ranking-completo-de-comparação-das-estratégias) through the `src/generate-full-ranking/index.ts` file to validate whether your strategy was successful or not.
+7. Finally, [generate the complete strategy comparison ranking](#generation-of-the-complete-strategy-comparison-ranking) through the `src/generate-full-ranking/index.ts` file to validate whether your strategy was successful or not.
 
 **Note:** for methods `chooseCardToPlay`, `chooseRowToTake` and `onCardsAdded` you can return a `Promise` if you need to perform some asynchronous processing, but be careful to return a promise only if it is strictly necessary, as returning a promise means that `await` must be executed during the game and this will slow down processing. Execution is slower even if an already resolved promise is returned. Execution will also be slower if the method is implemented using `async` even if it has no `await` in its logic.
 

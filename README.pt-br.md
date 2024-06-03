@@ -7,11 +7,13 @@
 	<span>Português Brasileiro</span>
 </p>
 
-Este projeto tem como objetivo realizar uma comparação entre possíveis estratégias para vencer o jogo [Pega em 6!](https://www.google.com/search?q=6+nimmt%21) a fim de auxiliar na busca por uma estratégia que seja significativamente melhor que as outras.
+Este projeto tem como objetivo realizar uma comparação entre possíveis estratégias para vencer o jogo <a href="https://www.google.com/search?q=6+nimmt%21" target="_blank">Pega em 6!</a> a fim de auxiliar na busca por uma estratégia que seja significativamente melhor que as outras.
 
 *Observação: tal estratégia que seja significativamente melhor ainda não foi encontrada... [ajude-nos a encontrá-la!](#como-adicionar-uma-nova-estratégia)*
 
-[O manual do jogo está disponível neste link.](https://world-of-board-games.com.sg/docs/6-Nimmt.pdf)
+<a href="https://world-of-board-games.com.sg/docs/6-Nimmt.pdf" target="_blank">
+	O manual do jogo está disponível neste link.
+</a>
 
 ## Estratégias
 
