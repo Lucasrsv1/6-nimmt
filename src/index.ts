@@ -6,6 +6,7 @@ import { AverageCard } from "./game/strategies/average-card";
 import { HighestCard } from "./game/strategies/highest-card";
 import { LowestCard } from "./game/strategies/lowest-card";
 import { MiddleCard } from "./game/strategies/middle-card";
+import { NearestAvailableCard } from "./game/strategies/nearest-available-card";
 import { NearestCard } from "./game/strategies/nearest-card";
 import { RandomCard } from "./game/strategies/random-card";
 
@@ -24,7 +25,8 @@ const game = new Game(
 		new LowestCard(3),
 		new MiddleCard(4),
 		new NearestCard(5),
-		new RandomCard(6)
+		new RandomCard(6),
+		new NearestAvailableCard(7)
 	],
 	flags.logging
 );

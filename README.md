@@ -17,7 +17,7 @@ This project aims to make a comparison between possible strategies to win the ga
 
 ## Strategies
 
-Currently implemented and compared strategies are:
+Basic strategies implemented and compared are:
 
 - **AverageCard:** the player chooses the card that is closest to the average of the cards in their hand.
 
@@ -30,6 +30,10 @@ Currently implemented and compared strategies are:
 - **NearestCard:** the player chooses the card that is nearest to the top card in one of the rows, considering that such row has less than 5 cards and that the player's card is bigger than the top card in the row.
 
 - **RandomCard:** the player chooses a random card from their hand.
+
+Currently the more elaborate strategies implemented and compared are:
+
+- **NearestAvailableCard:** the player chooses the card that is nearest to the top card of the row that the card is most likely to fit in, considering that such row has less than 5 cards and that each empty slot on it weigh in favor of the corresponding card.
 
 ### Choosing the Row to Take
 
@@ -215,31 +219,33 @@ node ./dist/generate-full-ranking/index.js
 
 ### Ranking by Victories
 
-| # | Strategy    | Victories | Percentage |
-|---|-------------|-----------|------------|
-| 1 | HighestCard | 282.851   | 15.04%     |
-| 2 | NearestCard | 269.508   | 14.33%     |
-| 3 | MiddleCard  | 210.731   | 11.20%     |
-| 4 | AverageCard | 191.217   | 10.17%     |
-| 5 | RandomCard  | 185.718   | 9.87%      |
-| 6 | LowestCard  | 179.175   | 9.53%      |
+| # | Strategy             | Victories | Percentage |
+|---|----------------------|-----------|------------|
+| 1 | NearestAvailableCard | 764.982   | 17.99%     |
+| 2 | HighestCard          | 601.634   | 14.15%     |
+| 3 | NearestCard          | 534.586   | 12.57%     |
+| 4 | MiddleCard           | 414.342   | 9.75%      |
+| 5 | AverageCard          | 375.526   | 8.83%      |
+| 6 | RandomCard           | 360.832   | 8.49%      |
+| 7 | LowestCard           | 351.698   | 8.27%      |
 
-The best strategy so far is `HighestCard` which has won ~15.04% of all games it has participated in.
+The best strategy so far is `NearestAvailableCard` which has won ~17.99% of all games it has participated in.
 
 ### Ranking By Points
 
-| # | Strategy    | Points       | Percentage |
-|---|-------------|--------------|------------|
-| 1 | HighestCard | 29,039,498   | 15.08%     |
-| 2 | NearestCard | 29,140,990   | 15.14%     |
-| 3 | MiddleCard  | 32,908,295   | 17.09%     |
-| 4 | RandomCard  | 33,259,775   | 17.27%     |
-| 5 | AverageCard | 33,568,385   | 17.43%     |
-| 6 | LowestCard  | 34,619,615   | 17.98%     |
+| # | Strategy             | Points       | Percentage |
+|---|----------------------|--------------|------------|
+| 1 | NearestAvailableCard | 57,827,473   | 11.63%     |
+| 2 | HighestCard          | 64,860,976   | 13.05%     |
+| 3 | NearestCard          | 67,076,410   | 13.49%     |
+| 4 | MiddleCard           | 75,361,037   | 15.16%     |
+| 5 | RandomCard           | 76,360,522   | 15.36%     |
+| 6 | AverageCard          | 76,732,029   | 15.43%     |
+| 7 | LowestCard           | 78,931,750   | 15.88%     |
 
-The best strategy so far is `HighestCard` which received only ~15.08% of the total points that were acquired by all strategies together.
+The best strategy so far is `NearestAvailableCard` which received only ~11.63% of the total points that were acquired by all strategies together.
 
-To generate the rankings, a total of **1,319,200** games were played and the processing time was **46.358** seconds.
+To generate the rankings, a total of **3,403,600** games were played and the processing time was **113.590** seconds.
 
 ## How to Add a New Strategy?
 
@@ -261,6 +267,8 @@ To create a new strategy, follow these steps:
 
 **Note:** for methods `chooseCardToPlay`, `chooseRowToTake` and `onCardsAdded` you can return a `Promise` if you need to perform some asynchronous processing, but be careful to return a promise only if it is strictly necessary, as returning a promise means that `await` must be executed during the game and this will slow down processing. Execution is slower even if an already resolved promise is returned. Execution will also be slower if the method is implemented using `async` even if it has no `await` in its logic.
 
+**Tip:** you can comment the more elaborate strategies in the file `src/game/strategies/index.ts` and keep only the basic ones to validate the ranking more quickly and have a prediction of how your strategy compares to the `HighestCard` strategy, which is the best basic strategy.
+
 ### Template for New Strategies
 
 To make implementing your new strategy easier, use the code below as a template:
@@ -278,7 +286,7 @@ export class NewStrategy extends Player {
 	 * Callback that is called when cards are added to the player's hand.
 	 *
 	 * Your strategy may override this method in order to perform additional logic.
-	 * If you don't need this, you can remove this method.
+	 * ? If you don't need this, you can remove this method.
 	 * @override
 	 */
 	protected onCardsAdded (): void | Promise<void> {
@@ -288,8 +296,8 @@ export class NewStrategy extends Player {
 	/**
 	 * Strategy that chooses a row to take when the player is forced to take a row.
 	 *
-	 * Describe here how your strategy chooses a row to take.
-	 * If you would rather keep the default logic, you can remove this method.
+	 * TODO: Describe here how your strategy chooses a row to take.
+	 * ? If you would rather keep the default logic, you can remove this method.
 	 *
 	 * @param gameRows Current state of the game rows.
 	 * @returns Index of the game row that the player chooses to take.
@@ -302,7 +310,7 @@ export class NewStrategy extends Player {
 	/**
 	 * Strategy that chooses a card to play from the player's hand.
 	 *
-	 * Describe here how your strategy chooses a card to play.
+	 * TODO: Describe here how your strategy chooses a card to play.
 	 *
 	 * @param gameRows Current state of the game rows.
 	 * @returns Index of the card that the player chooses to play.

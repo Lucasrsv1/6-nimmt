@@ -2,6 +2,7 @@ import { AverageCard } from "./average-card";
 import { HighestCard } from "./highest-card";
 import { LowestCard } from "./lowest-card";
 import { MiddleCard } from "./middle-card";
+import { NearestAvailableCard } from "./nearest-available-card";
 import { NearestCard } from "./nearest-card";
 import { RandomCard } from "./random-card";
 
@@ -9,12 +10,16 @@ import { RandomCard } from "./random-card";
  * List of all available strategies.
  */
 export const strategies = [
+	// Basic strategies
 	AverageCard,
 	HighestCard,
 	LowestCard,
 	MiddleCard,
 	NearestCard,
-	RandomCard
+	RandomCard,
+
+	// More elaborate strategies
+	NearestAvailableCard
 ];
 
 /**

@@ -17,7 +17,7 @@ Este projeto tem como objetivo realizar uma comparação entre possíveis estrat
 
 ## Estratégias
 
-Atualmente as estratégias implementadas e comparadas são:
+As estratégias básicas implementadas e comparadas são:
 
 - **AverageCard:** o jogador escolhe a carta que mais se aproxima da média das cartas da sua mão.
 
@@ -30,6 +30,10 @@ Atualmente as estratégias implementadas e comparadas são:
 - **NearestCard:** o jogador escolhe a carta que está mais próxima da carta do topo de uma das linhas, considerando que tal linha tem menos de 5 cartas e que a carta do jogador é maior que a carta do topo da linha.
 
 - **RandomCard:** o jogador escolhe uma carta aleatória de sua mão.
+
+Atualmente as estratégias mais elaboradas implementadas e comparadas são:
+
+- **NearestAvailableCard:** o jogador escolhe a carta que está mais próxima da carta do topo da linha onde a carta tem maior probabilidade de encaixar, considerando que tal linha tem menos de 5 cartas e que cada espaço vazio nela pesa a favor da carta correspondente.
 
 ### Escolha da Linha para Pegar
 
@@ -215,31 +219,33 @@ node ./dist/generate-full-ranking/index.js
 
 ### Ranking Por Vitórias
 
-| # | Estratégia  | Nº de Vitórias | Percentual |
-|---|-------------|----------------|------------|
-| 1 | HighestCard | 282.851        | 15,04%     |
-| 2 | NearestCard | 269.508        | 14,33%     |
-| 3 | MiddleCard  | 210.731        | 11,20%     |
-| 4 | AverageCard | 191.217        | 10,17%     |
-| 5 | RandomCard  | 185.718        | 9,87%      |
-| 6 | LowestCard  | 179.175        | 9,53%      |
+| # | Estratégia           | Nº de Vitórias | Percentual |
+|---|----------------------|----------------|------------|
+| 1 | NearestAvailableCard | 764.982        | 17,99%     |
+| 2 | HighestCard          | 601.634        | 14,15%     |
+| 3 | NearestCard          | 534.586        | 12,57%     |
+| 4 | MiddleCard           | 414.342        | 9,75%      |
+| 5 | AverageCard          | 375.526        | 8,83%      |
+| 6 | RandomCard           | 360.832        | 8,49%      |
+| 7 | LowestCard           | 351.698        | 8,27%      |
 
-A melhor estratégia até o momento é a `HighestCard` que ganhou ~15,04% de todos os jogos em que participou.
+A melhor estratégia até o momento é a `NearestAvailableCard` que ganhou ~17,99% de todos os jogos em que participou.
 
 ### Ranking Por Pontos
 
-| # | Estratégia  | Nº de Pontos | Percentual |
-|---|-------------|--------------|------------|
-| 1 | HighestCard | 29.039.498   | 15,08%     |
-| 2 | NearestCard | 29.140.990   | 15,14%     |
-| 3 | MiddleCard  | 32.908.295   | 17,09%     |
-| 4 | RandomCard  | 33.259.775   | 17,27%     |
-| 5 | AverageCard | 33.568.385   | 17,43%     |
-| 6 | LowestCard  | 34.619.615   | 17,98%     |
+| # | Estratégia           | Nº de Pontos | Percentual |
+|---|----------------------|--------------|------------|
+| 1 | NearestAvailableCard | 57.827.473   | 11,63%     |
+| 2 | HighestCard          | 64.860.976   | 13,05%     |
+| 3 | NearestCard          | 67.076.410   | 13,49%     |
+| 4 | MiddleCard           | 75.361.037   | 15,16%     |
+| 5 | RandomCard           | 76.360.522   | 15,36%     |
+| 6 | AverageCard          | 76.732.029   | 15,43%     |
+| 7 | LowestCard           | 78.931.750   | 15,88%     |
 
-A melhor estratégia até o momento é a `HighestCard` que recebeu apenas ~15,08% do total de pontos que foram adquiridos por todas as estratégias em conjunto.
+A melhor estratégia até o momento é a `NearestAvailableCard` que recebeu apenas ~11,63% do total de pontos que foram adquiridos por todas as estratégias em conjunto.
 
-Para a montagem dos rankings foram jogados no total **1.319.200** jogos e o tempo de processamento foi de **46,358** segundos.
+Para a montagem dos rankings foram jogados no total **3.403.600** jogos e o tempo de processamento foi de **113,590** segundos.
 
 ## Como Adicionar uma Nova Estratégia?
 
@@ -261,6 +267,8 @@ Para criar uma nova estratégia, siga o passo a passo:
 
 **Observação:** para os métodos `chooseCardToPlay`, `chooseRowToTake` e `onCardsAdded` você pode retornar uma promessa (`Promise`) caso necessite realizar algum processamento assíncrono, mas tome o cuidado de retornar um promessa somente se for restritamente necessário, pois o retorno de uma promessa significa que `await` deverá ser executado durante o jogo e isso tornará o processamento mais lento. A execução é mais lenta mesmo se for retornada uma promessa já resolvida. A execução também será mais lenta se o método for implementado usando `async` mesmo que não tenha nenhum `await` em sua lógica.
 
+**Dica:** você pode comentar as estratégias mais elaboradas no arquivo `src/game/strategies/index.ts` e manter apenas as básicas para fazer uma validação mais rápida do ranking e ter uma previsão de como sua estratégia se comporta em relação a estratégia `HighestCard`, que é a melhor estratégia básica.
+
 ### Template Padrão de Novas Estratégias
 
 Para facilitar a implementação da sua nova estratégia, utilize o código abaixo como modelo:
@@ -278,7 +286,7 @@ export class NewStrategy extends Player {
 	 * Callback that is called when cards are added to the player's hand.
 	 *
 	 * Sua estratégia pode substituir esse método para executar lógica adicional.
-	 * Se isso não for necessário, você pode remover este método.
+	 * ? Se isso não for necessário, você pode remover este método.
 	 * @override
 	 */
 	protected onCardsAdded (): void | Promise<void> {
@@ -288,8 +296,8 @@ export class NewStrategy extends Player {
 	/**
 	 * Strategy that chooses a row to take when the player is forced to take a row.
 	 *
-	 * Descreva aqui como sua estratégia escolhe uma linha para pegar.
-	 * Se preferir manter a lógica padrão, você pode remover este método.
+	 * TODO: Descreva aqui como sua estratégia escolhe uma linha para pegar.
+	 * ? Se preferir manter a lógica padrão, você pode remover este método.
 	 *
 	 * @param gameRows Current state of the game rows.
 	 * @returns Index of the game row that the player chooses to take.
@@ -302,7 +310,7 @@ export class NewStrategy extends Player {
 	/**
 	 * Strategy that chooses a card to play from the player's hand.
 	 *
-	 * Descreva aqui como sua estratégia escolhe uma carta para jogar.
+	 * TODO: Descreva aqui como sua estratégia escolhe uma carta para jogar.
 	 *
 	 * @param gameRows Current state of the game rows.
 	 * @returns Index of the card that the player chooses to play.
