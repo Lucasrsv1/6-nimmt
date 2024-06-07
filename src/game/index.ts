@@ -1,5 +1,6 @@
 import { Card } from "./models/card";
 import { CardShuffler } from "./models/card-shuffler";
+import { Cheater } from "./strategies/cheater";
 import { GameRow } from "./models/game-row";
 import { Player } from "./models/player";
 import { buildRanking, IRankingPosition } from "./models/ranking";
@@ -52,11 +53,11 @@ export class Game {
 
 		const nearest = {
 			row: availableRows[0],
-			distance: Math.abs(card.number - availableRows[0].biggestCard)
+			distance: card.number - availableRows[0].biggestCard
 		};
 
 		for (let i = 1; i < availableRows.length; i++) {
-			const distance = Math.abs(card.number - availableRows[i].biggestCard);
+			const distance = card.number - availableRows[i].biggestCard;
 			if (distance < nearest.distance) {
 				nearest.row = availableRows[i];
 				nearest.distance = distance;
@@ -104,9 +105,18 @@ export class Game {
 
 			const round: Array<{ player: Player, card: Card }> = [];
 			for (const player of this.players) {
+				if (player instanceof Cheater)
+					continue;
+
 				const playerChoice = player.play(this.gameRows);
 				const card = playerChoice instanceof Promise ? await playerChoice : playerChoice;
 				round.push({ player, card });
+			}
+
+			const cheaters = this.players.filter(p => p instanceof Cheater) as Cheater[];
+			for (const cheater of cheaters) {
+				const card = cheater.play(this.gameRows, round.map(t => t.card));
+				round.push({ player: cheater, card });
 			}
 
 			round.sort((a, b) => a.card.number - b.card.number);
@@ -114,7 +124,10 @@ export class Game {
 
 			for (const { player, card } of round) {
 				const points = this.playCard(card, player);
-				player.score += points instanceof Promise ? await points : points;
+				const pointsValue = points instanceof Promise ? await points : points;
+				player.score += pointsValue;
+				if (pointsValue > 0)
+					this.log(player.name, "got", pointsValue, "points");
 			}
 
 			this.log("Current rows:", this.gameRows.map((row, index) => ({

@@ -58,4 +58,10 @@ export class GameRow {
 
 		return points;
 	}
+
+	public clone (): GameRow {
+		const row = new GameRow();
+		row.cards = this.cards.slice();
+		return row;
+	}
 }

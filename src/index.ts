@@ -3,6 +3,7 @@ import args from "args";
 import { Game } from "./game";
 
 import { AverageCard } from "./game/strategies/average-card";
+// import { Cheater } from "./game/strategies/cheater";
 import { HighestCard } from "./game/strategies/highest-card";
 import { LowestCard } from "./game/strategies/lowest-card";
 import { MiddleCard } from "./game/strategies/middle-card";
@@ -27,6 +28,7 @@ const game = new Game(
 		new NearestCard(5),
 		new RandomCard(6),
 		new NearestAvailableCard(7)
+		// new Cheater(8)
 	],
 	flags.logging
 );

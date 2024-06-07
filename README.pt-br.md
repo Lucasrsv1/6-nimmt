@@ -178,19 +178,20 @@ npx ts-node ./src/generate-full-ranking/index.ts
 ...
 [2024-06-02 19:13:31.994] [LOG] Worker 19 finished
 [2024-06-02 19:13:31.995] [LOG] Victories:
-[2024-06-02 19:13:31.995] [LOG] HighestCard: 282572 (15.02%)
-[2024-06-02 19:13:31.996] [LOG] NearestCard: 269002 (14.30%)
-[2024-06-02 19:13:31.996] [LOG] MiddleCard: 210390 (11.19%)
-[2024-06-02 19:13:31.997] [LOG] AverageCard: 191952 (10.20%)
-[2024-06-02 19:13:31.997] [LOG] RandomCard: 185898 (9.88%)
-[2024-06-02 19:13:31.997] [LOG] LowestCard: 179386 (9.54%)
+[2024-06-02 19:13:31.995] [LOG] HighestCard: 282572 (32.48%)
+[2024-06-02 19:13:31.996] [LOG] NearestCard: 269649 (30.99%)
+[2024-06-02 19:13:31.996] [LOG] MiddleCard: 211314 (24.29%)
+[2024-06-02 19:13:31.997] [LOG] AverageCard: 190678 (21.92%)
+[2024-06-02 19:13:31.997] [LOG] RandomCard: 185946 (21.37%)
+[2024-06-02 19:13:31.997] [LOG] LowestCard: 179041 (20.58%)
 [2024-06-02 19:13:31.997] [LOG] Points:
-[2024-06-02 19:13:31.998] [LOG] HighestCard: 29043722 (15.08%)
-[2024-06-02 19:13:31.998] [LOG] NearestCard: 29132884 (15.13%)
-[2024-06-02 19:13:31.999] [LOG] MiddleCard: 32923479 (17.10%)
-[2024-06-02 19:13:31.999] [LOG] RandomCard: 33257322 (17.27%)
-[2024-06-02 19:13:31.999] [LOG] AverageCard: 33551238 (17.43%)
-[2024-06-02 19:13:32.000] [LOG] LowestCard: 34632214 (17.99%)
+[2024-06-02 19:13:31.998] [LOG] HighestCard: 29048136 (15.09%)
+[2024-06-02 19:13:31.998] [LOG] NearestCard: 29133801 (15.13%)
+[2024-06-02 19:13:31.999] [LOG] MiddleCard: 32905904 (17.09%)
+[2024-06-02 19:13:31.999] [LOG] RandomCard: 33247914 (17.27%)
+[2024-06-02 19:13:31.999] [LOG] AverageCard: 33583832 (17.44%)
+[2024-06-02 19:13:32.000] [LOG] LowestCard: 34618672 (17.98%)
+[2024-06-02 19:13:32.000] [LOG] Number of games played by each strategy: 870000
 [2024-06-02 19:13:32.000] [LOG] Total number of games played: 1319200
 [2024-06-02 19:13:32.001] [LOG] Finished in 48.212 seconds
 ```
@@ -221,31 +222,50 @@ node ./dist/generate-full-ranking/index.js
 
 | # | Estratégia           | Nº de Vitórias | Percentual |
 |---|----------------------|----------------|------------|
-| 1 | NearestAvailableCard | 764.982        | 17,99%     |
-| 2 | HighestCard          | 601.634        | 14,15%     |
-| 3 | NearestCard          | 534.586        | 12,57%     |
-| 4 | MiddleCard           | 414.342        | 9,75%      |
-| 5 | AverageCard          | 375.526        | 8,83%      |
-| 6 | RandomCard           | 360.832        | 8,49%      |
-| 7 | LowestCard           | 351.698        | 8,27%      |
+| 1 | NearestAvailableCard | 765.208        | 36,71%     |
+| 2 | HighestCard          | 600.175        | 28,79%     |
+| 3 | NearestCard          | 533.941        | 25,62%     |
+| 4 | MiddleCard           | 414.645        | 19,89%     |
+| 5 | AverageCard          | 375.540        | 18,02%     |
+| 6 | RandomCard           | 362.171        | 17,38%     |
+| 7 | LowestCard           | 351.920        | 16,88%     |
 
-A melhor estratégia até o momento é a `NearestAvailableCard` que ganhou ~17,99% de todos os jogos em que participou.
+A melhor estratégia até o momento é a `NearestAvailableCard` que ganhou **~36,71%** de todos os jogos em que participou.
 
 ### Ranking Por Pontos
 
 | # | Estratégia           | Nº de Pontos | Percentual |
 |---|----------------------|--------------|------------|
-| 1 | NearestAvailableCard | 57.827.473   | 11,63%     |
-| 2 | HighestCard          | 64.860.976   | 13,05%     |
-| 3 | NearestCard          | 67.076.410   | 13,49%     |
-| 4 | MiddleCard           | 75.361.037   | 15,16%     |
-| 5 | RandomCard           | 76.360.522   | 15,36%     |
-| 6 | AverageCard          | 76.732.029   | 15,43%     |
-| 7 | LowestCard           | 78.931.750   | 15,88%     |
+| 1 | NearestAvailableCard | 57.812.371   | 11,63%     |
+| 2 | HighestCard          | 64.905.430   | 13,06%     |
+| 3 | NearestCard          | 67.063.286   | 13,49%     |
+| 4 | MiddleCard           | 75.354.042   | 15,16%     |
+| 5 | RandomCard           | 76.343.272   | 15,36%     |
+| 6 | AverageCard          | 76.717.331   | 15,43%     |
+| 7 | LowestCard           | 78.912.221   | 15,87%     |
 
-A melhor estratégia até o momento é a `NearestAvailableCard` que recebeu apenas ~11,63% do total de pontos que foram adquiridos por todas as estratégias em conjunto.
+A melhor estratégia até o momento é a `NearestAvailableCard` que recebeu apenas **~11,63%** do total de pontos que foram adquiridos por todas as estratégias em conjunto.
 
-Para a montagem dos rankings foram jogados no total **3.403.600** jogos e o tempo de processamento foi de **113,590** segundos.
+Para a montagem dos rankings foram jogados no total **3.403.600** jogos, sendo que cada estratégia jogou **2.084.400** jogos, e o tempo de processamento foi de **105,692** segundos.
+
+### Jogador Trapaceiro
+
+Foi implementada uma "estratégia" especial chamada `Cheater` que ao ser executada ela toma a decisão de qual carta jogar considerando quais cartas os outros jogadores jogaram, o que configura trapaça. Com isso, essa "estratégia" fornece uma ideia de quantas partidas um jogador quase ideal poderia vencer.
+
+Abaixo está o ranking incluindo o jogador trapaceiro:
+
+| # | Estratégia           | Nº de Vitórias | Vitórias (%) | Nº de Pontos | Pontos (%) |
+|---|----------------------|----------------|--------------|--------------|------------|
+| 1 | Cheater              | 2.834.927      | 62,14%       |  77.090.229  |  6,61%     |
+| 2 | NearestAvailableCard | 1.198.607      | 26,27%       | 127.273.586  | 10,91%     |
+| 3 | HighestCard          |   937.269      | 20,55%       | 141.387.859  | 12,12%     |
+| 4 | NearestCard          |   805.255      | 17,65%       | 147.019.688  | 12,60%     |
+| 5 | MiddleCard           |   606.024      | 13,28%       | 166.169.046  | 14,25%     |
+| 6 | AverageCard          |   551.570      | 12,09%       | 167.621.955  | 14,37%     |
+| 7 | RandomCard           |   526.502      | 11,54%       | 166.896.335  | 14,31%     |
+| 8 | LowestCard           |   505.246      | 11,08%       | 172.981.979  | 14,83%     |
+
+Para a montagem desse ranking foram jogados no total **7.965.400** jogos, sendo que cada estratégia jogou **4.561.800** jogos, e o tempo de processamento foi de **702,794** segundos.
 
 ## Como Adicionar uma Nova Estratégia?
 

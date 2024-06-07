@@ -33,11 +33,15 @@ process.on("message", async (message: Serializable | IMessageToWorker) => {
 
 		for (let i = 0; i < message.gamesToPlay; i++) {
 			const ranking = await game.play();
+
+			// A strategy may appear more than once in the ranking, so we need to count it only once.
+			for (const strategyName of new Set(game.players.map(p => p.strategyName)))
+				stats[strategyName].gamesPlayed++;
+
 			for (const { strategyName, points, position } of ranking) {
 				totalPoints += points;
 				stats[strategyName].points += points;
 
-				stats[strategyName].gamesPlayed++;
 				if (position === 1)
 					stats[strategyName].victories++;
 			}

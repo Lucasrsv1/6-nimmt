@@ -94,12 +94,12 @@ function onMessageFromWorker (child: ChildProcess, message: WorkerMessage) {
 
 	const allDone = CHILDREN.every(c => c.isDone);
 	if (allDone) {
-		let totalGamesPLayed = 0;
+		let totalGamesPlayed = 0;
 
 		console.log("Victories:");
 		const strategyNames = strategies.map(s => s.name).sort((a, b) => stats[b].victories - stats[a].victories);
 		for (const strategy of strategyNames) {
-			totalGamesPLayed += stats[strategy].victories;
+			totalGamesPlayed += stats[strategy].victories;
 			console.log(`${strategy}: ${stats[strategy].victories} (${(stats[strategy].victories / stats[strategy].gamesPlayed * 100).toFixed(2)}%)`);
 		}
 
@@ -108,7 +108,8 @@ function onMessageFromWorker (child: ChildProcess, message: WorkerMessage) {
 		for (const strategy of strategyNames)
 			console.log(`${strategy}: ${stats[strategy].points} (${(stats[strategy].points / totalPoints * 100).toFixed(2)}%)`);
 
-		console.log("Total number of games played:", totalGamesPLayed);
+		console.log("Number of games played by each strategy:", stats[strategyNames[0]].gamesPlayed);
+		console.log("Total number of games played:", totalGamesPlayed);
 		console.log("Finished in", ((Date.now() - startTime) / 1000).toFixed(3), "seconds");
 
 		process.exit(0);

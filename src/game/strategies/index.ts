@@ -1,4 +1,5 @@
 import { AverageCard } from "./average-card";
+// import { Cheater } from "./cheater";
 import { HighestCard } from "./highest-card";
 import { LowestCard } from "./lowest-card";
 import { MiddleCard } from "./middle-card";
@@ -20,6 +21,9 @@ export const strategies = [
 
 	// More elaborate strategies
 	NearestAvailableCard
+
+	// Rigged strategy
+	// Cheater
 ];
 
 /**
